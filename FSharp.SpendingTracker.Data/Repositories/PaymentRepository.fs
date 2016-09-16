@@ -21,7 +21,7 @@ module PaymentRepository =
             |> List.fold (fun acc param -> match param with | (_,None) -> acc | (k,Some(p)) -> (k,p :> obj) :: acc) []
 
         connection
-        |> dapperMapParametrizedQuery<PaymentRecord> ("SELECT * FROM [Payment] WHERE (1=1) " + dateFromClause + dateUntilClause) (Map dateRangeParameters)
+        |> dapperMapParameterizedQuery<PaymentRecord> ("SELECT * FROM [Payment] WHERE (1=1) " + dateFromClause + dateUntilClause) (Map dateRangeParameters)
         |> List.ofSeq
         |> List.map (fun paymentRecord -> paymentRecord.MapTo)
     

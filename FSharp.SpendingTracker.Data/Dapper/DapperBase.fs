@@ -13,16 +13,16 @@ module internal DapperBase =
     let dapperQuery<'Result> (query:string) (connection:SqlConnection) =
         connection.Query<'Result>(query)
     
-    let dapperParametrizedQuery<'Result> (query:string) (param:obj) (connection:SqlConnection) : 'Result seq =
+    let dapperParameterizedQuery<'Result> (query:string) (param:obj) (connection:SqlConnection) : 'Result seq =
         connection.Query<'Result>(query, param)
     
-    let dapperMapParametrizedQuery<'Result> (query:string) (param : Map<string,_>) (connection:SqlConnection) : 'Result seq =
+    let dapperMapParameterizedQuery<'Result> (query:string) (param : Map<string,_>) (connection:SqlConnection) : 'Result seq =
         let expando = ExpandoObject()
         let expandoDictionary = expando :> IDictionary<string,obj>
         for paramValue in param do
             expandoDictionary.Add(paramValue.Key, paramValue.Value :> obj)
     
-        connection |> dapperParametrizedQuery query expando
+        connection |> dapperParameterizedQuery query expando
 
 
     
