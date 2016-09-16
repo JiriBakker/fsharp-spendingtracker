@@ -9,6 +9,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.SpendingTracker.Doma
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.SpendingTracker.Tests", "FSharp.SpendingTracker.Tests\FSharp.SpendingTracker.Tests.fsproj", "{111B1714-960E-4C87-8AA4-98B6A75DE375}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.SpendingTracker.Data", "FSharp.SpendingTracker.Data\FSharp.SpendingTracker.Data.fsproj", "{D54F3AA7-D6C2-4C88-88F0-9DDFFD48009C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{111B1714-960E-4C87-8AA4-98B6A75DE375}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{111B1714-960E-4C87-8AA4-98B6A75DE375}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{111B1714-960E-4C87-8AA4-98B6A75DE375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D54F3AA7-D6C2-4C88-88F0-9DDFFD48009C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D54F3AA7-D6C2-4C88-88F0-9DDFFD48009C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D54F3AA7-D6C2-4C88-88F0-9DDFFD48009C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D54F3AA7-D6C2-4C88-88F0-9DDFFD48009C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

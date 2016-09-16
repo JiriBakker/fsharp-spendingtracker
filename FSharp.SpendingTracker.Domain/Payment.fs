@@ -2,6 +2,8 @@
 
 open System
 
-type Payment() = 
-    member this.Amount = 123M
-    member this.Timestamp = DateTimeOffset.UtcNow
+type Payment = { 
+        Amount    : decimal;
+        Timestamp : DateTimeOffset 
+    }
+    

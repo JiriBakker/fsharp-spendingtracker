@@ -2,6 +2,7 @@
 
 open NUnit.Framework
 open FsUnit
+open System
 
 open FSharp.SpendingTracker.Domain
 
@@ -10,6 +11,6 @@ type PaymentTests() =
     
     [<Test>]
     member this.payment_can_be_constructed() =
-        let payment = Payment()
+        let payment = { Amount = 123M; Timestamp = DateTimeOffset.UtcNow }
         true |> should be True
    
