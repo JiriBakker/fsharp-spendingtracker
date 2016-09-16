@@ -12,11 +12,8 @@ namespace FSharp.SpendingTracker.Api
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-            // Configure Web API to use only bearer token authentication.
-            //config.SuppressDefaultHostAuthentication();
 
-            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html") );
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json") );
 
             var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
             config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
