@@ -1,12 +1,13 @@
 ﻿namespace FSharp.SpendingTracker.Data.Repositories
 
-open System
-open FSharp.SpendingTracker.Data.Dapper.DapperBase
-open FSharp.SpendingTracker.Data.Records
-
 module PaymentRepository =    
 
-    let getPayments (dateFrom:DateTimeOffset option) (dateUntil:DateTimeOffset option) connection =        
+    open System
+    open System.Data.SqlClient
+    open FSharp.SpendingTracker.Data.Dapper.DapperBase
+    open FSharp.SpendingTracker.Data.Records
+
+    let getPayments (dateFrom:DateTimeOffset option) (dateUntil:DateTimeOffset option) connectionString =        
 
         let timestampClauseIfSome timestampOption clauseSuffix =
             match timestampOption with
@@ -20,6 +21,7 @@ module PaymentRepository =
             [("dateFrom", dateFrom); ("dateUntil", dateUntil)]
             |> List.fold (fun acc param -> match param with | (_,None) -> acc | (k,Some(p)) -> (k,p :> obj) :: acc) []
 
+        use connection = new SqlConnection(connectionString)
         connection
         |> dapperMapParameterizedQuery<PaymentRecord> ("SELECT * FROM [Payment] WHERE (1=1) " + dateFromClause + dateUntilClause) (Map dateRangeParameters)
         |> List.ofSeq

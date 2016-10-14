@@ -1,3 +1,0 @@
-<connectionStrings>
-  <add name="FSharp.SpendingTracker" connectionString="Data Source=<host>;Initial Catalog=<database>;Integrated Security=true;MultipleActiveResultSets=true;" providerName="System.Data.SqlClient" />
-</connectionStrings>
