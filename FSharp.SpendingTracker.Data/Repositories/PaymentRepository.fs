@@ -4,11 +4,11 @@ module PaymentRepository =
 
     open System
     open System.Data.SqlClient
+    open FSharp.SpendingTracker.Domain
     open FSharp.SpendingTracker.Data.Dapper.DapperBase
     open FSharp.SpendingTracker.Data.Records
 
-    let getPayments (dateFrom:DateTimeOffset option) (dateUntil:DateTimeOffset option) connectionString =        
-
+    let getPayments (dateFrom:DateTimeOffset option) (dateUntil:DateTimeOffset option) connectionString =      
         let timestampClauseIfSome timestampOption clauseSuffix =
             match timestampOption with
             | None            -> ""
@@ -24,6 +24,14 @@ module PaymentRepository =
         use connection = new SqlConnection(connectionString)
         connection
         |> dapperMapParameterizedQuery<PaymentRecord> ("SELECT * FROM [Payment] WHERE (1=1) " + dateFromClause + dateUntilClause) (Map dateRangeParameters)
-        |> List.ofSeq
-        |> List.map (fun paymentRecord -> paymentRecord.MapTo)
+
+        |> Seq.map (fun paymentRecord -> paymentRecord.mapTo)
     
+    let add (payment:Payment) connectionString =
+        let paymentRecord = PaymentRecord.mapFrom payment
+        
+        use connection = new SqlConnection(connectionString)
+        connection
+        |> dapperMapParameterizedInsert 
+            "INSERT INTO [Payment] ([Amount], [Timestamp], [Description]) VALUES (@amount, @timestamp, @description);" 
+            (Map [("amount", paymentRecord.Amount :> obj); ("timestamp", paymentRecord.Timestamp :> obj); ("description", paymentRecord.Description :> obj)])

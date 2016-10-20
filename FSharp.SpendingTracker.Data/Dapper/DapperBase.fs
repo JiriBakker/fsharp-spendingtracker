@@ -24,5 +24,9 @@ module internal DapperBase =
     
         connection |> dapperParameterizedQuery query expando
 
+    let dapperMapParameterizedInsert (query:string) (param : Map<string,_>) (connection:SqlConnection) : int =
+        dapperMapParameterizedQuery<int> ("SET NOCOUNT ON; " + query + "; SELECT CAST(COALESCE(SCOPE_IDENTITY(), 0) AS INT);") param connection
+        |> Seq.head
+
 
     

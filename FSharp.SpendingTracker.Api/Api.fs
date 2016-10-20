@@ -7,8 +7,7 @@ module Api =
     open System.Collections.Generic
     open System.Linq
     
-    open FSharp.Configuration
-    open FSharp.Data
+    open FSharp.Configuration    
 
     open Suave
     open Suave.Filters
@@ -22,8 +21,6 @@ module Api =
     open FSharp.SpendingTracker.Domain
 
     type private Settings = AppSettings<"App.config">
-
-    type private History = CsvProvider<Sample = "Timestamp;Description;Amount", Schema = "date,string,decimal", Separators = ";">
 
     let private app =
 
@@ -39,21 +36,7 @@ module Api =
         let executeAction action httpContext =
             action() httpContext
 
-        // TODO place in modules?
-
-        let processHistoryFile (filePath:string) =
-            let csvData = History.Load(filePath)
-            [
-                String.Format("Success! Found {0} rows", csvData.Rows.Count()) ;
-                String.Format("Found {0} headers: {1}", csvData.Headers.Value.Count(), String.Join(" - ", csvData.Headers.Value)) ;
-                "Rows:"
-            ] @ (
-                csvData.Rows
-                |> List.ofSeq
-                |> List.map (fun row -> String.Format("Description: {0} - Amount: {1} - Timestamp: {2}", row.Description, row.Amount, row.Timestamp))
-            )
-
-
+  
         // Actions
         let getRecentHistory () = 
             let oneWeekAgo = Some (DateTimeOffset.Now.AddDays(-7.0))
@@ -68,8 +51,8 @@ module Api =
             let files = httpContext.request.files
 
             match files with
-            | []    -> "No history file uploaded"        |> toResult BAD_REQUEST
-            | x::xs -> processHistoryFile x.tempFilePath |> toResult OK
+            | []    -> "No history file uploaded"                  |> toResult BAD_REQUEST
+            | x::xs -> PaymentImport.processCsvFile x.tempFilePath |> toResult OK
         
             <| httpContext    
 

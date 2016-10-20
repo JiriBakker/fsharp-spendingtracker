@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[Payment] (
     [PaymentId] [int]            NOT NULL IDENTITY (1,1) PRIMARY KEY,
-    [Amount]    [decimal]        NOT NULL,
+    [Amount]    [decimal](10,3)  NOT NULL,
     [Timestamp] [datetimeoffset] NOT NULL
 ) ON [PRIMARY]
 

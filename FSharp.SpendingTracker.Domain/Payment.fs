@@ -3,7 +3,9 @@
 open System
 
 type Payment = { 
-        Amount    : decimal;
-        Timestamp : DateTimeOffset 
+        PaymentId   : int option;
+        Amount      : decimal;
+        Timestamp   : DateTimeOffset;
+        Description : string
     }
     

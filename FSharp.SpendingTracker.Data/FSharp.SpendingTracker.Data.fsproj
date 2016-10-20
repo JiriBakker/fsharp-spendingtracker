@@ -50,7 +50,6 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Dapper\DapperBase.fs" />
     <Compile Include="Records\PaymentRecord.fs" />
     <Compile Include="Repositories\PaymentRepository.fs" />
