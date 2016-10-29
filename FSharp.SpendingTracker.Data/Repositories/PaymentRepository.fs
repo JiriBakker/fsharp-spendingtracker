@@ -18,7 +18,9 @@ module PaymentRepository =
             query + appendString
 
         let query =
-            "SELECT * FROM [Payment] WHERE (1=1) "
+            "SELECT [PaymentId], [Amount], [Timestamp], [Description] 
+            FROM [Payment] 
+            WHERE (1=1) "
             |> addClauseIfSome category  "('@category' = '@category')"
             |> addClauseIfSome dateFrom  "[Timestamp] >= @dateFrom"
             |> addClauseIfSome dateUntil "[Timestamp] <= @dateUntil"
@@ -49,5 +51,5 @@ module PaymentRepository =
         use connection = new SqlConnection(connectionString)
         connection
         |> dapperMapParameterizedInsert 
-            "INSERT INTO [Payment] ([Amount], [Timestamp], [Description], [CreatedAtUtc]) VALUES (@amount, @timestamp, @description, SYSDATETIME());" 
+            "INSERT INTO [Payment] ([Amount], [Timestamp], [Description], [CreatedAtUtc]) VALUES (@amount, @timestamp, @description, SYSUTCDATETIME());" 
             (Map [("amount", paymentRecord.Amount :> obj); ("timestamp", paymentRecord.Timestamp :> obj); ("description", paymentRecord.Description :> obj)])
