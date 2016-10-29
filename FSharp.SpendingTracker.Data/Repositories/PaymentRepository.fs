@@ -8,22 +8,38 @@ module PaymentRepository =
     open FSharp.SpendingTracker.Data.Dapper.DapperBase
     open FSharp.SpendingTracker.Data.Records
 
-    let getPayments (dateFrom:DateTimeOffset option) (dateUntil:DateTimeOffset option) connectionString =      
-        let timestampClauseIfSome timestampOption clauseSuffix =
-            match timestampOption with
-            | None            -> ""
-            | Some(timestamp) -> " AND [Timestamp] " + clauseSuffix
+    let getPayments category (dateFrom:DateTimeOffset option) (dateUntil:DateTimeOffset option) limit connectionString =      
+        let addClauseIfSome optional clauseSuffix query =
+            match optional with
+            | None            -> query
+            | Some(timestamp) -> query + " AND " + clauseSuffix
 
-        let dateFromClause  = timestampClauseIfSome dateFrom  ">= @dateFrom"
-        let dateUntilClause = timestampClauseIfSome dateUntil "<= @dateUntil"           
+        let append appendString query =
+            query + appendString
+
+        let query =
+            "SELECT * FROM [Payment] WHERE (1=1) "
+            |> addClauseIfSome category  "('@category' = '@category')"
+            |> addClauseIfSome dateFrom  "[Timestamp] >= @dateFrom"
+            |> addClauseIfSome dateUntil "[Timestamp] <= @dateUntil"
+            |> append " ORDER BY [Timestamp] DESC "
+            |> append " OFFSET 0 ROWS FETCH NEXT @limit ROWS ONLY "
         
-        let dateRangeParameters =
-            [("dateFrom", dateFrom); ("dateUntil", dateUntil)]
-            |> List.fold (fun acc param -> match param with | (_,None) -> acc | (k,Some(p)) -> (k,p :> obj) :: acc) []
+        let addParam key optional list =
+            match optional with
+            | Some value -> (key, value :> obj) :: list
+            | _ -> list
+
+        let queryParameters = 
+            []
+            |> addParam "category" category
+            |> addParam "dateFrom" dateFrom
+            |> addParam "dateUntil" dateUntil
+            |> addParam "limit" (Some limit)
 
         use connection = new SqlConnection(connectionString)
         connection
-        |> dapperMapParameterizedQuery<PaymentRecord> ("SELECT * FROM [Payment] WHERE (1=1) " + dateFromClause + dateUntilClause) (Map dateRangeParameters)
+        |> dapperMapParameterizedQuery<PaymentRecord> query (Map queryParameters)
 
         |> Seq.map (fun paymentRecord -> paymentRecord.mapTo)
     
@@ -33,5 +49,5 @@ module PaymentRepository =
         use connection = new SqlConnection(connectionString)
         connection
         |> dapperMapParameterizedInsert 
-            "INSERT INTO [Payment] ([Amount], [Timestamp], [Description]) VALUES (@amount, @timestamp, @description);" 
+            "INSERT INTO [Payment] ([Amount], [Timestamp], [Description], [CreatedAtUtc]) VALUES (@amount, @timestamp, @description, SYSDATETIME());" 
             (Map [("amount", paymentRecord.Amount :> obj); ("timestamp", paymentRecord.Timestamp :> obj); ("description", paymentRecord.Description :> obj)])
