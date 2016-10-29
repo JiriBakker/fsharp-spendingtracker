@@ -123,4 +123,8 @@
     </ProjectReference>
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
+  <PropertyGroup>
+    <PreBuildEvent>(if exist "$(TargetDir)*old.dll" del "$(TargetDir)*old.dll") &amp; (if exist "$(TargetDir)*.dll" ren "$(TargetDir)*.dll" *.old.dll)
+(if exist "$(TargetDir)*old.pdb" del "$(TargetDir)*old.pdb") &amp; (if exist "$(TargetDir)*.pdb" ren "$(TargetDir)*.pdb" *.old.pdb)</PreBuildEvent>
+  </PropertyGroup>
 </Project>
