@@ -50,8 +50,9 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="Payment.fs" />
+    <Compile Include="Category.fs" />
     <Content Include="packages.config" />
+    <Compile Include="Payment.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">

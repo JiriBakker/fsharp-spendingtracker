@@ -50,8 +50,10 @@
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
-    <Compile Include="PaymentTests.fs" />
+    <Compile Include="CategoryMatcherTests.fs" />
+    <Content Include="App.config" />
     <Content Include="packages.config" />
+    <Compile Include="PaymentTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
@@ -76,6 +78,11 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FSharp.SpendingTracker.Api\FSharp.SpendingTracker.Api.fsproj">
+      <Name>FSharp.SpendingTracker.Api</Name>
+      <Project>{d7641421-031e-4cd8-b3da-1e531a3d3e79}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\FSharp.SpendingTracker.Domain\FSharp.SpendingTracker.Domain.fsproj">
       <Name>FSharp.SpendingTracker.Domain</Name>
       <Project>{46af7e09-92d0-4261-b8e8-bb6d93d17f36}</Project>
