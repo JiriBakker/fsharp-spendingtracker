@@ -13,8 +13,8 @@ type CategoryMatcherTests() =
     [<Test>]
     member this.identical_descriptions_are_matched() =
         let categories = [
-            { Title = "MyCategory";    DescriptionsToMatch = [ "category-to-match" ] };
-            { Title = "OtherCategory"; DescriptionsToMatch = [ "this-category-should-not-be-matched" ] }      
+            { CategoryId = 1; Title = "MyCategory";    DescriptionsToMatch = [ "category-to-match" ] };
+            { CategoryId = 2; Title = "OtherCategory"; DescriptionsToMatch = [ "this-category-should-not-be-matched" ] }      
         ] 
 
         let orderedMatches =
@@ -28,8 +28,8 @@ type CategoryMatcherTests() =
     [<Test>]
     member this.similar_descriptions_are_matched() =
         let categories = [
-            { Title = "MyCategory";    DescriptionsToMatch = [ "category-to-match" ] };
-            { Title = "OtherCategory"; DescriptionsToMatch = [ "this-category-should-not-be-matched" ] }      
+            { CategoryId = 1; Title = "MyCategory";    DescriptionsToMatch = [ "category-to-match" ] };
+            { CategoryId = 2; Title = "OtherCategory"; DescriptionsToMatch = [ "this-category-should-not-be-matched" ] }      
         ] 
 
         let orderedMatches =
@@ -43,8 +43,8 @@ type CategoryMatcherTests() =
     [<Test>]
     member this.matching_is_case_insensitive() =
         let categories = [
-            { Title = "MyCategory";    DescriptionsToMatch = [ "category to match" ] };
-            { Title = "OtherCategory"; DescriptionsToMatch = [ "Category-To-Match" ] }      
+            { CategoryId = 1; Title = "MyCategory";    DescriptionsToMatch = [ "category to match" ] };
+            { CategoryId = 2; Title = "OtherCategory"; DescriptionsToMatch = [ "Category-To-Match" ] }      
         ] 
 
         let orderedMatches =

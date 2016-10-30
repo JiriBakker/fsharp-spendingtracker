@@ -39,6 +39,10 @@ module Api =
 
   
         // Actions
+        let getCategories () =
+            CategoryRepository.getCategoriesPoging2 connectionString
+            |> toResult OK
+
         let getHistory () httpContext = 
             let getParam key = 
                 match (httpContext.request.queryParam key) with
@@ -76,8 +80,9 @@ module Api =
 
         // Routing
         choose [ 
-            GET  >=> path "/history" >=> executeAction getHistory ;
-            POST >=> path "/history" >=> executeAction uploadHistory ;
+            GET  >=> path "/category" >=> executeAction getCategories ;
+            GET  >=> path "/history"  >=> executeAction getHistory    ;
+            POST >=> path "/history"  >=> executeAction uploadHistory ;
             NOT_FOUND "Oops! Resource not found..."
         ]
 

@@ -51,7 +51,10 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="Dapper\DapperBase.fs" />
+    <Compile Include="Records\CategoryDescriptionRecord.fs" />
     <Compile Include="Records\PaymentRecord.fs" />
+    <Compile Include="Records\CategoryRecord.fs" />
+    <Compile Include="Repositories\CategoryRepository.fs" />
     <Compile Include="Repositories\PaymentRepository.fs" />
     <Content Include="packages.config" />
   </ItemGroup>

@@ -12,6 +12,9 @@ module internal DapperBase =
 
     let dapperQuery<'Result> (query:string) (connection:SqlConnection) =
         connection.Query<'Result>(query)
+
+    let dapperQuery1Join<'Result1, 'Result2, 'Result3> (query:string) (mapFunc:'Result1 -> 'Result2 -> 'Result3) (splitOn:string) (connection:SqlConnection) =
+        connection.Query<'Result1, 'Result2, 'Result3>(query, Func<'Result1, 'Result2, 'Result3>(mapFunc), splitOn = splitOn)        
     
     let dapperParameterizedQuery<'Result> (query:string) (param:obj) (connection:SqlConnection) : 'Result seq =
         connection.Query<'Result>(query, param)
